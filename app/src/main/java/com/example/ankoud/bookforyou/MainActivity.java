@@ -1,6 +1,7 @@
 package com.example.ankoud.bookforyou;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.StrictMode;
 import android.preference.EditTextPreference;
@@ -45,6 +46,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
        firebaseAuth=FirebaseAuth.getInstance();
+        if(firebaseAuth.getCurrentUser()!=null){
+            finish();
+            startActivity(new Intent(this , ProfileActivity.class));
+        }
         progressdialog = new ProgressDialog(this);
 
         buttonRegister = (Button) findViewById(R.id.buttonRegister);
@@ -66,7 +71,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             registerUser();
         }
         if (v == textViewSignin) {
-
+            finish();
+            startActivity(new Intent(this, LoginActivity.class));
         }
     }
 
@@ -94,12 +100,13 @@ firebaseAuth.createUserWithEmailAndPassword(email,password)
         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                progressdialog.dismiss();
                 if(task.isSuccessful()){
-                    //log in succes
-                    Toast.makeText(MainActivity.this,"registered successfully",Toast.LENGTH_SHORT).show();
+                    //redirecting to the profile directly
+                    finish();
+                    startActivity(new Intent(getApplicationContext(),ProfileActivity.class ));
                 }else{
                     Toast.makeText(MainActivity.this,"could not register ,try again",Toast.LENGTH_SHORT).show();
-
                 }
             }
         });
