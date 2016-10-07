@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.w3c.dom.Text;
+
 public class ProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseAuth firebaseAuth;
@@ -35,9 +37,6 @@ public class ProfileActivity extends AppCompatActivity
             finish();
             startActivity(new Intent(this , LoginActivity.class));
         }
-
-
-
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -60,6 +59,9 @@ public class ProfileActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header =navigationView.getHeaderView(0);
+        TextView emailTxt = (TextView)header.findViewById(R.id.textuseremail);
+        emailTxt.setText(firebaseAuth.getCurrentUser().getEmail());
     }
 
     @Override
